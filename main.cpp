@@ -91,6 +91,8 @@ int main() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+    unsigned int VAO;
+
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
 
