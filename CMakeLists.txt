@@ -1,10 +1,14 @@
 cmake_minimum_required(VERSION 4.1)
-project(opengl)
+project(LearnOpenGL)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(opengl main.cpp glad.c)
+add_executable(LearnOpenGL main.cpp glad.c
+        include/shader.h)
 
 find_package(glfw3 REQUIRED)
-target_link_libraries(opengl glfw)
-target_include_directories(opengl PRIVATE include)
+target_link_libraries(LearnOpenGL glfw)
+target_include_directories(LearnOpenGL PRIVATE include)
+
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/shaders"
+DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
