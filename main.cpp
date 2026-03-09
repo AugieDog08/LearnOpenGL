@@ -128,10 +128,13 @@ int main() {
         // shader.setFloat("opacity", std::sin(glfwGetTime()));
         shader.setFloat("opacity", 0.2);
 
+        float time = glfwGetTime();
+
         glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
         glm::mat4 trans = glm::mat4(1.0f);
-        trans = glm::rotate(trans, glm::radians((float)glfwGetTime() * 60.0f), glm::vec3(0.0, 0.0, 1.0));
-        trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+        trans = glm::translate(trans, glm::vec3(0.5f * cos(time), -0.5f * sin(time), 0.0f));
+        trans = glm::rotate(trans, glm::radians(time * 60.0f), glm::vec3(1.0, 1.0, 1.0));
+        trans = glm::scale(trans, glm::vec3(0.5 * cos(time), 0.5 * sin(time), 0.5));
         vec = trans * vec;
 
         shader.setMat4("transform", trans);
