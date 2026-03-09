@@ -6,9 +6,14 @@
 #include <shader.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow * window);
+const int WIDTH = 800;
+const int HEIGHT = 800;
 
 int main() {
     setenv("XCURSOR_SIZE", "24", 1);
@@ -18,7 +23,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "LearnOpenGL", nullptr, nullptr);
     if (window == nullptr) {
         std::cout << "Failed to create GLFW window\n";
         glfwTerminate();
@@ -32,7 +37,7 @@ int main() {
         return -1;
     }
 
-    Shader shader("shaders/shader.vs", "shaders/shader.fs");
+    Shader shader("shaders/shader.vert", "shaders/shader.frag");
 
     const float vertices[] = {
         // positions          // colors           // texture coords
@@ -108,6 +113,8 @@ int main() {
     stbi_image_free(data);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+    framebuffer_size_callback(window, WIDTH*2, HEIGHT*2);
+
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
 
@@ -117,6 +124,17 @@ int main() {
         shader.use();
         shader.setInt("texture1", 0);
         shader.setInt("texture2", 1);
+
+        // shader.setFloat("opacity", std::sin(glfwGetTime()));
+        shader.setFloat("opacity", 0.2);
+
+        glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
+        glm::mat4 trans = glm::mat4(1.0f);
+        trans = glm::rotate(trans, glm::radians((float)glfwGetTime() * 60.0f), glm::vec3(0.0, 0.0, 1.0));
+        trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+        vec = trans * vec;
+
+        shader.setMat4("transform", trans);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
