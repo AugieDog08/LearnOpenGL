@@ -182,6 +182,10 @@ int main() {
 
         float time = glfwGetTime();
 
+        glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+        glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+        glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
+
         glm::mat4 view = glm::mat4(1.0f);
         glm::mat4 projection;
         view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
