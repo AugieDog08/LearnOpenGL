@@ -14,8 +14,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow * window, double xpos, double ypos);
 void processInput(GLFWwindow * window);
 
-const int WIDTH = 800;
-const int HEIGHT = 800;
+constexpr int WIDTH = 800;
+constexpr int HEIGHT = 800;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 float timeSinceLastFPSUpdate = 0.0f;
@@ -24,6 +24,7 @@ float lastX = WIDTH / 2.0f;
 float lastY = HEIGHT / 2.0f;
 float yaw = -90.0f;
 float pitch = 0.0f;
+float roll = 0.0f;
 bool firstMouse = true;
 
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -57,7 +58,7 @@ int main() {
 
     Shader shader("shaders/shader.vert", "shaders/shader.frag");
 
-    float vertices[] = {
+    constexpr float vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
          0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
          0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -101,7 +102,7 @@ int main() {
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
-    glm::vec3 cubePositions[] = {
+    constexpr glm::vec3 cubePositions[] = {
         glm::vec3( 0.0f,  0.0f,  0.0f),
         glm::vec3( 2.0f,  5.0f, -15.0f),
         glm::vec3(-1.5f, -2.2f, -2.5f),
@@ -114,7 +115,7 @@ int main() {
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
-    unsigned int indices[] = {
+    const unsigned int indices[] = {
         0, 1, 3,
         1, 2, 3
     };
@@ -183,7 +184,7 @@ int main() {
 
     glEnable(GL_DEPTH_TEST);
 
-    framebuffer_size_callback(window, WIDTH*2, HEIGHT*2);
+    // framebuffer_size_callback(window, WIDTH*2, HEIGHT*2);
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -253,7 +254,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
     float yoffset = lastY - ypos;
     lastX = xpos;
     lastY = ypos;
-    const float sensitivity = 0.15f;
+    constexpr float sensitivity = 0.15f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
     yaw += xoffset;
